@@ -1,0 +1,13 @@
+package java.util;
+
+import java.io.InputStream;
+
+public native class Scanner { 
+
+	public Scanner(InputStream in){}
+
+	public int nextInt();
+
+	public String nextLine();
+
+}

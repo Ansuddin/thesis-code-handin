@@ -1,0 +1,43 @@
+// Hospital 1	
+		MatrixApi matrix1 = new MatrixApi("https://ansuddin.xyz","hospital1","test","!jGiMyqbOaVwNMkgkYU:ansuddin.xyz");
+		HashMap<String,String> map1 = new HashMap<String,String>();
+		map.put("2707932131","!aBCPtniJlmBzUhXFkq:ansuddin.xyz"); // Patient 1
+		map.put("8912345678","!gKZKAxpgJBvdqIzmMD:ansuddin.xyz"); // Patient 2
+		map.put("6789123456","!JIVwFELdgbMXArYtxG:ansuddin.xyz"); // Patient 3
+		map.put("5678912345","!FndRGpqYCQfAmpytFP:ansuddin.xyz");
+		map.put("4567891234","!JNwApEsMYKBzATlxod:ansuddin.xyz");
+
+		// Hospital 2: 
+		MatrixApi matrix2 = new MatrixApi("https://ansuddin.xyz","hospital2","test","!jGiMyqbOaVwNMkgkYU:ansuddin.xyz");
+		HashMap<String,String> map2 = new HashMap<String,String>();
+		map.put("2707932131","!aBCPtniJlmBzUhXFkq:ansuddin.xyz");
+		map.put("8912345678","!gKZKAxpgJBvdqIzmMD:ansuddin.xyz");
+		map.put("6789123456","!JIVwFELdgbMXArYtxG:ansuddin.xyz");
+		map.put("5678912345","!VvYBcbQdMjVXOrTZnz:ansuddin.xyz");
+
+
+{"ssn":"6789123456","name":"Charlotte Grimstad","address":"Frederikssundsvej 192","publicNote":"","publicSessions":["Stomach ache"],"privateSessions":["Discovered a tumor","Waiting for results for cancer"]}
+
+		// Doctor 1:
+		String[] patients1 = {"2707932131","8912345678"};
+		Employee doctor1 = new Doctor(1, "John", patients);
+
+		// Doctor 2:
+		String[] patients2 = {"6789123456"};
+		Employee doctor2 = new Doctor(1, "John", patients);
+
+
+		String name1 = "Ans Uddin";
+		String address1 = "Knapmagerstien 49";
+		String publicNote1 = "Pollen allergy";
+		String[] publicSessions1 = {" D-vitamin deficiancy"};
+		String[] privateSessions1 = new String[1];
+		PatientJournalD journal1 = new PatientJournalD(ssn1, name1, address1, publicNote1, publicSessions1,	privateSessions1);
+
+		String ssn2 = "8912345678";
+		String name2 = "John Doe";
+		String address2 = "Halmtorvet 20";
+		String publicNote2 = "Blood type O";
+		String[] publicSessions2 = {"Concussion"};
+		String[] privateSessions2 = {"Started treatment for depression"};
+		PatientJournalD journal2 = new PatientJournalD(ssn2, name2, address2, publicNote2, publicSessions2,	privateSessions2);

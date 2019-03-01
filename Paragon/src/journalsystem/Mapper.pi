@@ -1,0 +1,7 @@
+public class Mapper {
+
+	public static PatientJournalD JSONToObject(String json);
+
+	public static String objectToJSON(PatientJournalD object);
+
+}

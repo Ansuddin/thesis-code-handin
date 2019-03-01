@@ -1,0 +1,8 @@
+package org.jpy;
+
+public native static class PyLib {
+	
+	boolean isPythonRunning();
+	void startPython();
+	void stopPython();
+}

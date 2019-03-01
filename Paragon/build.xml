@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="journalsystem" default="usage" basedir=".">
+  <description>Builds Matrix project.</description>
+  <property name="build.dir" value="./" />
+  <property name="src.dir" location="${build.dir}/src" />
+  <property name="bin.dir" location="${build.dir}/bin" />
+  <property name="lib.dir" location="${build.dir}/lib" />
+  <property name="jpy.dir" location="${build.dir}/jpy"/>
+
+  <!-- Path to find standard .pi files -->
+  <property name="pipath.base" location="${build.dir}/libPI" />  <!-- specify location -->
+
+  <path id="javac-classpath">
+    <fileset dir="${lib.dir}">
+      <include name="*.jar" />
+    </fileset>
+  </path>
+
+  <target name="usage">
+    <echo message="Available targets are:" />
+    <echo message="clean            - Cleans up." />
+    <echo message="build            - Compiles Matrix (=parac+javac)." />
+    <echo message="parac            - Compiles Paragon files only." />
+    <echo message="javac            - Compiles generated Java files only." />
+    <ehco message="run              - Run compiled file." />
+  </target>
+
+  <target name="clean" description="Remove .java, .pi and .class files">
+    <delete includeEmptyDirs="true" failonerror="false">
+      <fileset dir="${src.dir}">
+        <include name="**/*.java" />
+        <include name="**/*.pi" />
+        <include name="**/*.orig" />
+        <include name="**/*.rej" />
+        <exclude name="**/Mapper.java"/>
+        <exclude name="**/Mapper.pi"/>
+        <exclude name="**/Employee.java"/>
+        <exclude name="**/Employee.pi"/>
+        <exclude name="**/MatrixJPY.java"/>
+        <exclude name="**/MatrixJPY.pi"/>
+        <exclude name="**/Matrix.java"/>
+        <exclude name="**/Matrix.pi"/>
+        <exclude name="**/runtime/*.pi" />
+        <exclude name="**/runtime/*.java" />
+      </fileset>
+      <fileset dir="${bin.dir}" />
+    </delete>
+  </target>
+
+  <target name="parac" depends="dummyClasses">
+    <exec executable="./parac"> <!-- specify location -->
+      <arg value="-p" />
+      <arg value="${pipath.base}:${src.dir}/journalsystem" />
+
+      <arg value="${src.dir}/journalsystem/Policy.para"/>
+      <arg value="${src.dir}/journalsystem/PatientJournalD.para"/> 
+      <arg value="${src.dir}/journalsystem/Util.para"/> 
+      <arg value="${src.dir}/journalsystem/Hospital.para"/>
+      <arg value="${src.dir}/journalsystem/Secretary.para"/> 
+      <arg value="${src.dir}/journalsystem/Doctor.para"/>
+      <arg value="${src.dir}/journalsystem/Main.para"/>
+ 
+    </exec>
+  </target>
+
+
+  <target name="javac">
+    <mkdir dir="${bin.dir}" />
+    <javac srcdir="${src.dir}" destdir="${bin.dir}" debug="true" includeAntRuntime="false">
+      
+      <classpath refid="javac-classpath" />
+      <include name="**/*.java" />
+    </javac>
+  </target>
+  
+  <target name="compile" depends="parac, javac">
+  </target>
+
+  <target name="run">
+    <java classname="Main" fork="true"> <!-- specify classname -->
+      <!--<arg value="-h"/>-->
+      <arg value="${arg}"/>
+      <classpath> 
+        <path refid="javac-classpath"/> <!-- not working -->
+        <path location="${bin.dir}"/>
+      </classpath>
+      <sysproperty key="jpy.config" value="${jpy.dir}/jpyconfig.properties"/>
+    </java>
+  </target>
+
+  <target name="runTest">
+    <java classname="Test" fork="true"> <!-- specify classname -->
+      <classpath> 
+        <path refid="javac-classpath"/> <!-- not working -->
+        <path location="${bin.dir}"/>
+      </classpath>
+      <sysproperty key="jpy.config" value="${jpy.dir}/jpyconfig.properties"/>
+    </java>
+  </target>
+
+  <target name="dummyClasses">
+    <touch file="${src.dir}/journalsystem/PatientJournalD.pi" />
+    <echo file="${src.dir}/journalsystem/PatientJournalD.pi" message="public class PatientJournalD { }" />
+    <touch file="${src.dir}/journalsystem/Doctor.pi" />
+    <echo file="${src.dir}/journalsystem/Doctor.pi" message="public class Doctor { }" />
+    <touch file="${src.dir}/journalsystem/Secretary.pi" />
+    <echo file="${src.dir}/journalsystem/Secretary.pi" message="public class Secretary { }" />
+    <touch file="${src.dir}/journalsystem/Hospital.pi" />
+    <echo file="${src.dir}/journalsystem/Hospital.pi" message="public class Hospital { }" />
+  </target>
+</project>

@@ -1,0 +1,11 @@
+public class Employee
+{
+  public void receive(PatientJournalD journal, java.util.Scanner scanner)
+  ;
+
+  public String getName()
+  ;
+
+  public String getTitle()
+  ;
+}

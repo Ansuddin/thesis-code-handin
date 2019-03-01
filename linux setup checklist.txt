@@ -1,0 +1,5 @@
+- Install Python3 + pip
+- Install Java + JDK
+- Install Olm library: (https://travis-ci.org/poljar/python-olm) 
+- Install Matrix
+- Install JPY

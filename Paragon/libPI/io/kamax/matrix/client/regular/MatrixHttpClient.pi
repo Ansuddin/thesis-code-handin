@@ -1,0 +1,10 @@
+package io.kamax.matrix.client.regular;
+
+import io.kamax.matrix.client.*;
+
+public native class MatrixHttpClient {
+	
+	public MatrixHttpClient(MatrixClientContext context){}
+	public String toString(){}
+	MatrixClientContext getContext();
+}

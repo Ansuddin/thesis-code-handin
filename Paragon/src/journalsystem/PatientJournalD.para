@@ -1,0 +1,118 @@
+
+public class PatientJournalD {
+
+	
+	private ?(Policy.lowD + Policy.trusted) String   ssn;
+	private ?(Policy.lowD + Policy.trusted) String   name;
+	private ?(Policy.lowD + Policy.trusted) String   address;	
+	private ?(Policy.lowD + Policy.trusted) String   publicNote;
+	private ?(Policy.mediumD + Policy.trusted) String[] publicSessions;
+	private ?(Policy.highD + Policy.trusted) String[] privateSessions;
+	
+
+	public PatientJournalD(){}
+
+	public PatientJournalD(?(Policy.lowD + Policy.trusted) String   ssn, 
+						  ?(Policy.lowD + Policy.trusted) String   name, 
+						  ?(Policy.lowD + Policy.trusted) String   address, 
+						  ?(Policy.lowD + Policy.trusted) String   publicNote, 
+						  ?(Policy.mediumD + Policy.trusted) String[] publicSessions,
+						  ?(Policy.highD + Policy.trusted) String[] privateSessions){
+		this.ssn = ssn;
+		this.name = name;
+		this.address = address;
+		this.publicNote = publicNote;
+		this.publicSessions = publicSessions;
+		this.privateSessions = privateSessions;
+	}
+
+	?(Policy.lowD + Policy.trusted)
+	public String getSsn(){
+		return this.ssn;
+	}
+
+	~Policy.OnlyMatrix
+	!(Policy.lowD + Policy.trusted)
+	public void setSsn(?(Policy.lowD + Policy.trusted) String ssn){
+		this.ssn=ssn;
+	}
+
+	?(Policy.lowD + Policy.trusted)
+	public String getName(){
+		return this.name;
+	}
+
+	~Policy.OnlyMatrix
+	!(Policy.lowD + Policy.trusted)
+	public void setName(?(Policy.lowD + Policy.trusted) String name){
+		this.name = name;
+	}
+
+	?(Policy.lowD + Policy.trusted)
+	public String getAddress(){
+		return this.address;
+	}
+
+	~Policy.OnlyMatrix
+	!(Policy.lowD + Policy.trusted)
+	public void setAddress(?(Policy.lowD + Policy.trusted) String address){
+		this.address = address;
+	}
+
+	?(Policy.lowD + Policy.trusted)
+	public String getPublicNote(){
+		return this.publicNote;
+	}
+
+	!(Policy.lowD + Policy.trusted)
+	public void setPublicNote(?(Policy.lowD + Policy.trusted) String note){
+		this.publicNote = note;
+	}
+
+	~Policy.DoctorLock
+	?(Policy.mediumD + Policy.trusted)	
+	public String[] getPublicSessions(){
+		return publicSessions;
+	}
+
+	~Policy.OnlyMatrix
+	!(Policy.mediumD + Policy.trusted)
+	public void setPublicSessions(?(Policy.mediumD + Policy.trusted) String[] publicSessions){
+		this.publicSessions = publicSessions;
+	}
+
+	~Policy.Referred
+	?(Policy.highD + Policy.trusted)
+	public String[] getPrivateSessions(){
+		return privateSessions;
+	}
+
+	~Policy.OnlyMatrix
+	!(Policy.highD + Policy.trusted)
+	public void setPrivateSessions(?(Policy.highD + Policy.trusted) String[] privateSessions){
+		this.privateSessions = privateSessions;
+	}
+
+	~Policy.DoctorLock
+	!(Policy.mediumD + Policy.trusted)
+	public void addToPublicSessions(?(Policy.mediumD + Policy.trusted) String session){
+		String[] newSessions = new String[this.publicSessions.length+1];
+		for(int i=0; i<this.publicSessions.length; i++){
+			newSessions[i] = this.publicSessions[i];
+		}
+		newSessions[publicSessions.length] = session;
+		this.publicSessions = newSessions;
+	} 
+
+	~Policy.Referred
+	!(Policy.highD + Policy.trusted)
+	public void addToPrivateSessions(?(Policy.highD + Policy.trusted) String session){
+		String[] newSessions = new String[this.privateSessions.length+1];
+		for(int i=0; i<this.privateSessions.length; i++){
+			newSessions[i] = this.privateSessions[i];
+		}
+		newSessions[privateSessions.length] = session;
+		this.privateSessions = newSessions;
+	} 	
+	
+}

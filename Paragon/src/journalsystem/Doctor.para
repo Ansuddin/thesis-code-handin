@@ -1,0 +1,89 @@
+import java.util.Scanner;
+public class Doctor implements Employee{
+	
+	public int id;
+	public String name;
+	public String title;
+	public String[] patients;
+	public Hospital hospital;
+
+	public Doctor (?{Object x:}int id, ?{Object x:}String name,?{Object x:} String title, ?{Object x:}String[] patients, ?{Object x:}Hospital hospital){
+		this.id = id;
+		this.name = name;
+		this.title = title;
+		this.patients = patients;
+		this.hospital = hospital;
+	}
+
+	!(Policy.lowD+Policy.trusted)
+	public void receive(?(Policy.lowD+Policy.trusted)PatientJournalD journal, 
+						?(Policy.lowD+Policy.untrusted)Scanner scanner){		
+		openLockIsDoctor((Employee)this);
+		Doctor self = this;
+		String ssn = journal.getSsn();
+		for(int i=0; i<patients.length; i++){
+			if(patients[i].equals(ssn)){
+				 open Policy.IsReferred(self);
+			}
+		}
+		System.out.println("Level 3");
+		System.out.println("Select an option: ");
+		System.out.println("1. Print journal");
+		System.out.println("2. Edit public note");
+		System.out.println("3. Add to public session");
+		if(Policy.IsReferred(self)){
+			System.out.println("4. Add to private session");
+		}
+		System.out.println("0. Back");
+		int option = scanner.nextInt();
+		int endorsedOption = Policy.<Integer>endorse(option).intValue();
+		if(endorsedOption==1){
+			Employee upcastedSelf = (Employee) this;
+			Util.printJournal(journal,upcastedSelf);
+		} else if (endorsedOption==2){
+			String input = Util.getUserInput();
+			?(Policy.lowD+Policy.trusted) String endorsed = Policy.<String>endorse(input);
+			journal.setPublicNote(endorsed);
+			hospital.updateJournal(journal);
+		} else if (endorsedOption==3) {
+			Employee upcastedSelf = (Employee) this;
+				if(Policy.IsDoctor(upcastedSelf)){
+					open Policy.DoctorLock{
+						String input = Util.getUserInput();
+						?(Policy.lowD+Policy.trusted) String endorsed = Policy.<String>endorse(input);
+						journal.addToPublicSessions(endorsed);
+						hospital.updateJournal(journal);
+					}
+				}
+		} else if (endorsedOption==4) {
+			if(Policy.IsReferred(self)){
+				open Policy.Referred{
+					 String input = Util.getUserInput();
+					 ?(Policy.lowD+Policy.trusted) String endorsed = Policy.<String>endorse(input);
+					 journal.addToPrivateSessions(endorsed);
+					 hospital.updateJournal(journal);
+				}
+			}
+		} else {
+
+		}
+		
+	}
+
+	!(Policy.lowD+Policy.trusted)
+	private void openLockIsDoctor(?(Policy.lowD+Policy.trusted)Employee employee){
+		open Policy.IsDoctor(employee);
+	}
+
+	?Policy.bottom
+	public String getName(){
+		return this.name;
+	}
+
+	?Policy.bottom
+	public String getTitle(){
+		return this.title;
+	}
+
+
+}

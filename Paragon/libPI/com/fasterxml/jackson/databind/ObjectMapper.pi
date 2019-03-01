@@ -1,0 +1,10 @@
+import java.lang.*;
+
+public native class ObjectMapper {
+	
+	public ObjectMapper(){}
+
+	String writeValueAsString(Object a);
+
+	Object readValue(String s);
+}

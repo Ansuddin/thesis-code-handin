@@ -1,0 +1,11 @@
+package io.kamax.matrix.client;
+
+import java.net.URL;
+
+public native class MatrixClientContext {
+	
+	public MatrixClientContext(){}
+	void setHsBaseUrl(URL url);
+	String getHsBaseUrl();
+
+}

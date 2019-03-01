@@ -1,0 +1,48 @@
+
+import java.util.Scanner;
+
+public class Util {
+
+	?(Policy.lowD+Policy.untrusted)
+	public static String getUserInput(){
+		System.out.println("Please type now: ");
+		Scanner scanner = new Scanner(System.in);
+		String input = scanner.nextLine();
+		return input;
+	}
+
+	!(Policy.lowD+Policy.trusted)
+	public static void printJournal(?(Policy.lowD+Policy.trusted) PatientJournalD journal, Employee employee){
+		String ssn = Policy.<String>declassifyLow(journal.getSsn());
+		String name = Policy.<String>declassifyLow(journal.getName());
+		String address = Policy.<String>declassifyLow(journal.getAddress());
+		String publicNote = Policy.<String>declassifyLow(journal.getPublicNote());
+		System.out.println("Patient journal: ");
+		System.out.println("\t" + "SSN: " + ssn);
+		System.out.println("\t" + "Name: " + name);
+		System.out.println("\t" + "Address: " + address);
+		System.out.println("\t" + "Public note: " + publicNote);
+		if(Policy.IsDoctor(employee)){
+			open Policy.DoctorLock{
+				String[] publicSessions = Policy.<String[]>declassifyMedium(journal.getPublicSessions());
+				System.out.println("\t" + "Public sessions:");
+				for(int i=0; i<publicSessions.length; i++){
+					System.out.println("\t\t" + "Session " + i + ": " + publicSessions[i]);
+				}
+			}
+			
+			Doctor doctor = (Doctor) employee;
+			if(Policy.IsReferred(doctor)){
+				 open Policy.Referred{
+					String[] privateSessions = Policy.<String[]>declassifyHigh(journal.getPrivateSessions());
+					System.out.println("\t" + "Private sessions:");
+					for(int i=0; i<privateSessions.length; i++){
+						System.out.println("\t\t" + "Session " + i + ": " + privateSessions[i]);
+					}
+				}
+
+			}
+		}
+		System.out.println();
+	}
+}

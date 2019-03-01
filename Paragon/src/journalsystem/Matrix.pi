@@ -1,0 +1,5 @@
+ 
+public native interface Matrix<policy p> {
+	!p void send(?p String message, ?p String room);
+	?p String retrieve(?p String room);
+}

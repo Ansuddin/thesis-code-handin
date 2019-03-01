@@ -1,0 +1,8 @@
+ 
+public native class MatrixJPY<policy p> implements Matrix<p>{
+	public MatrixJPY(String a, String b, String c, String d){}
+	!p void send(?p String message, ?p String room);
+	?p String retrieve(?p String room);
+	?p String objectToJSON(?p PatientJournalD object);
+	?p PatientJournalD JSONToObject(?p String json);
+}

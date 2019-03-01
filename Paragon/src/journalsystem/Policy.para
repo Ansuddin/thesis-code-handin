@@ -1,0 +1,68 @@
+public class Policy {
+
+
+	// Paragon definitions
+	public static final policy bottom = {Object x:};
+	public static final policy top = {:};
+
+	// Integrity
+	private static final Object untrustedObserver = new Object();
+	private static final Object trustedObserver = new Object();
+
+	private lock endorseLock;
+	public static final policy untrusted = { untrustedObserver :; trustedObserver: endorseLock};
+	public static final policy trusted = { untrustedObserver :; trustedObserver: };
+
+
+	//Endorse
+	?(lowD+trusted)
+	public static <A>
+	A endorse(?(lowD+trusted*untrusted) A x){
+		open endorseLock{
+			return x;
+		}
+	}
+
+	//Confidentiality
+	private lock declassifyLock;
+	
+	public static final policy lowD = { Doctor d:; Secretary s:; Object x: declassifyLock };
+	
+	// Putting locks here otherwise compile error.
+	public static ?(lowD+trusted) lock IsReferred(Doctor); 
+	public static ?(lowD+trusted) lock Referred;
+	public static ?(lowD+trusted) lock IsDoctor(Employee);
+	public static ?(lowD+trusted) lock DoctorLock; 
+	public static ?(lowD+trusted) lock OnlyMatrix;	
+
+	public static final policy mediumD = { Doctor d:; Object x: declassifyLock};
+	public static final policy highD = { Doctor d: IsReferred(d); Object x : declassifyLock };
+
+
+	//Declassify
+	?bottom
+	public static <A> 
+	A declassifyLow(?(bottom*lowD) A x){
+		open declassifyLock {
+			return x;
+		}
+	}
+
+	~DoctorLock
+	?bottom
+	public static <A> 
+	A declassifyMedium(?(bottom*mediumD) A x){
+		open declassifyLock {
+			return x;
+		}
+	}
+
+	~Referred
+	?bottom
+	public static < A> 
+	A declassifyHigh(?(bottom*highD) A x){
+		open declassifyLock {
+			return x;	
+		}
+	}
+}

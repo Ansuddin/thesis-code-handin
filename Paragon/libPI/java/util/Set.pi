@@ -1,0 +1,15 @@
+package java.util;
+
+// Paragonized
+
+/**
+ * A set of JifObjects.
+ *
+ * @see jif.util.Collection
+ */
+public native interface Set<K> { // extends Collection[L] {
+
+	String[] toArray(String[] a);
+
+	int size();
+}
